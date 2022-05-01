@@ -1,0 +1,56 @@
+function Dragonhub:GetItemInfo(SelectedItem,Type)
+    local Paths={game:GetService("ReplicatedStorage").Purchasables.Structures.HardStructures,game:GetService("ReplicatedStorage").Purchasables.Structures.BlueprintStructures,game:GetService("ReplicatedStorage").Purchasables.Other,game:GetService("ReplicatedStorage").Purchasables.Tools.AllTools,game:GetService("ReplicatedStorage").Purchasables.WireObjects,game:GetService("ReplicatedStorage").Purchasables.Vehicles};
+    for i=1,#Paths do 
+        local Folder=Paths[i]:GetChildren();
+        for i=1,#Folder do 
+            local Item=Folder[i];
+            local ItemName=Item:FindFirstChild'ItemName';
+            if Type=='Name'then
+                if ItemName and ItemName.Value..' '==tstring(SelectedItem):split('-')[1] then 
+                    AutobuySelectedItem=tstring(Item)
+                    return tstring(Item);
+                end;
+            end;
+            if Type=='Price'then 
+                if tstring(Item)==tstring(SelectedItem)then 
+                    return tonumber(Item.Price.Value)*AutobuyAmount;
+                end;
+            end;
+        end;
+    end;
+    return false;
+end;
+
+function Dragonhub:GetStoreItems()
+    return lstring(game:HttpGetAsync'https://raw.githubusercontent.com/SscripterSs/dragonhubSoure/main/autobuy')();
+    --Manual Dumper
+
+    -- local Paths={game:GetService("ReplicatedStorage").Purchasables.Structures.HardStructures,game:GetService("ReplicatedStorage").Purchasables.Structures.BlueprintStructures,game:GetService("ReplicatedStorage").Purchasables.Other,game:GetService("ReplicatedStorage").Purchasables.Tools.AllTools,game:GetService("ReplicatedStorage").Purchasables.WireObjects,game:GetService("ReplicatedStorage").Purchasables.Vehicles};
+    -- local Items={'Basic Hatchet - $12','Rukiryaxe - $7400'};
+    -- local function Check(i,StoreItem)
+    --     if tstring(i)==tstring(StoreItem)then 
+    --         local ItemName=i:FindFirstChild'BoxItemName'or i:FindFirstChild'ItemName';
+    --         Items[#Items+1]=tstring(ItemName.Value..' - $'..i.Price.Value);
+    --     end;
+    -- end;
+    -- for i=1,#StoreChildren do 
+    --     local Store=StoreChildren[i];
+    --     if tstring(Store)=='ShopItems'then
+    --         local StoreItems=Store:GetChildren();
+    --         for i=1,#StoreItems do 
+    --             local StoreItem=StoreItems[i];
+    --             for i=1,#Paths do 
+    --                 local Folder=Paths[i]:GetChildren();
+    --                 for i=1,#Folder do 
+    --                     local Item=Folder[i];
+    --                     local ItemName=Item:FindFirstChild'ItemName';
+    --                     if ItemName and table.find(Items,tstring(ItemName.Value..' - $'..Item.Price.Value))==nil then 
+    --                         Check(Item,StoreItem)
+    --                     end;
+    --                 end;
+    --             end;
+    --         end;
+    --     end;
+    -- end;
+    -- return Items;
+end;
